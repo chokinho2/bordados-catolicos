@@ -1,0 +1,6 @@
+# Mídia pesada — não faz parte da landing page
+*.mp4
+/ABO_FRANCES/
+/CBO_FRANCÊS/
+node_modules/
+.DS_Store
