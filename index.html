@@ -15,8 +15,11 @@
   <link rel="dns-prefetch" href="https://cdn.utmify.com.br" />
   <link rel="dns-prefetch" href="https://randomuser.me" />
 
-  <!-- Preload LCP (hero image) -->
-  <link rel="preload" as="image" href="capa-desenhos-catolicos.png" fetchpriority="high" />
+  <!-- Preload LCP (hero image) com srcset responsivo -->
+  <link rel="preload" as="image"
+        imagesrcset="capa-600.webp 600w, capa-1024.webp 1024w"
+        imagesizes="(max-width: 640px) 100vw, 512px"
+        fetchpriority="high" />
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -96,7 +99,9 @@
 
     <!-- Mockup do produto (capa) -->
     <div class="mt-10 w-full max-w-lg">
-      <img src="capa-desenhos-catolicos.png"
+      <img src="capa-1024.webp"
+           srcset="capa-600.webp 600w, capa-1024.webp 1024w"
+           sizes="(max-width: 640px) 100vw, 512px"
            alt="+100 Desenhos Católicos — Acervo Devocional de Bordados Sagrados"
            width="1024" height="1024"
            class="w-full h-auto rounded-2xl shadow-soft"
@@ -452,7 +457,9 @@
 
         <!-- Imagem do produto (capa) -->
         <div class="mt-4 max-w-sm mx-auto">
-          <img src="capa-desenhos-catolicos.png"
+          <img src="capa-600.webp"
+               srcset="capa-400.webp 400w, capa-600.webp 600w"
+               sizes="(max-width: 640px) 90vw, 384px"
                alt="+100 Desenhos Católicos — Pacote completo"
                width="1024" height="1024"
                class="w-full h-auto rounded-xl shadow-card"
