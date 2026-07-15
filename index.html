@@ -51,42 +51,46 @@
     .pill { border-radius: 180px; }
   </style>
 
-  <!-- Meta Pixel Code -->
+  <!-- Meta Pixel + UTMify (carregados FORA do caminho crítico) -->
   <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
+  // Stub imediato do fbq: fbq() já existe e enfileira eventos (PageView, InitiateCheckout)
+  // sem baixar nada. Os scripts pesados entram só depois que a página pinta.
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}(window,document);
   fbq('init', '2486824241743289');
   fbq('track', 'PageView');
+
+  (function(){
+    var done=false;
+    function carregarRastreamento(){
+      if(done) return; done=true;
+      // Meta Pixel (fbevents.js) — descarrega a fila (PageView etc.)
+      var t=document.createElement('script'); t.async=true;
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(t);
+      // UTMify - Pixel de Conversão
+      window.pixelId="6a2899b0a2a0a7483b514f5d";
+      var a=document.createElement('script'); a.async=true; a.defer=true;
+      a.src='https://cdn.utmify.com.br/scripts/pixel/pixel.js';
+      document.head.appendChild(a);
+      // UTMify - UTM Tracking
+      var u=document.createElement('script'); u.async=true; u.defer=true;
+      u.setAttribute('data-utmify-prevent-subids','');
+      u.src='https://cdn.utmify.com.br/scripts/utms/latest.js';
+      document.head.appendChild(u);
+    }
+    // Dispara na 1ª interação (rolar/tocar/clicar) — ou automaticamente após 3,5s / no load
+    var evts=['scroll','pointerdown','touchstart','keydown','click'];
+    function once(){ evts.forEach(function(ev){window.removeEventListener(ev,once)}); carregarRastreamento(); }
+    evts.forEach(function(ev){ window.addEventListener(ev, once, {once:true,passive:true}); });
+    window.addEventListener('load', function(){ setTimeout(carregarRastreamento, 1500); });
+    setTimeout(carregarRastreamento, 3500);
+  })();
   </script>
   <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=2486824241743289&ev=PageView&noscript=1"
   /></noscript>
-  <!-- End Meta Pixel Code -->
-
-  <!-- UTMify - UTM Tracking -->
-  <script
-    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-    data-utmify-prevent-subids
-    async
-    defer
-  ></script>
-
-  <!-- UTMify - Pixel de Conversão -->
-  <script>
-    window.pixelId = "6a2899b0a2a0a7483b514f5d";
-    var a = document.createElement("script");
-    a.setAttribute("async", "");
-    a.setAttribute("defer", "");
-    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-    document.head.appendChild(a);
-  </script>
-  <!-- End UTMify -->
 </head>
 <body class="bg-white antialiased">
 
